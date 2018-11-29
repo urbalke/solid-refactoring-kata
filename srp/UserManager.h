@@ -3,6 +3,7 @@
 
 
 #include <string>
+#include <stdexcept>
 #include "DbService.h"
 #include "SmtpClient.h"
 
