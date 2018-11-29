@@ -7,7 +7,7 @@
 class SmtpClient {
 public:
     void setParameter(std::string const &name, std::string const &value) {}
-    void sendEmail(std::string const &from, std::string const &subject, std::string const &body) {}
+    void sendEmail(std::string const &from, std::string const& to, std::string const &subject, std::string const &body) {}
 };
 
 

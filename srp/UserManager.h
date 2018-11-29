@@ -31,7 +31,7 @@ public:
         db.release();
 
         smtp.setParameter("smtp.server", "smtp.example.tld");
-        smtp.sendEmail("our-admin@example.tld", "Registration Message", "Welcome Our Dear Client!");
+        smtp.sendEmail("our-admin@example.tld", email, "Registration Message", "Welcome Our Dear Client!");
     }
 
 };
