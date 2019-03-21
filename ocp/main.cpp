@@ -22,8 +22,8 @@ int main() {
                 if (line.find("!print", 0) == 0) {
                     // Process the print command.
                     std::istringstream iss(line);
-                    std::vector<std::string> tokens(std::istream_iterator<std::string>{iss},
-                                                    std::istream_iterator<std::string>());
+                    std::vector<std::string> tokens((std::istream_iterator<std::string>(iss)),
+                                                     std::istream_iterator<std::string>());
                     auto it = tokens.begin();
                     it++;
                     while (it != tokens.end()) {
@@ -39,8 +39,8 @@ int main() {
                 } else if (line.find("!add", 0) == 0) {
                     // Process the add command: add another variable or value to a specified variable.
                     std::istringstream iss(line);
-                    std::vector<std::string> tokens(std::istream_iterator<std::string>{iss},
-                                                    std::istream_iterator<std::string>());
+                    std::vector<std::string> tokens((std::istream_iterator<std::string>(iss)),
+                                                     std::istream_iterator<std::string>());
                     if (tokens.size() == 3 and tokens[1][0] == '$') {
                         std::string variableName = tokens[1];
                         std::string arg = (tokens[2][0] == '$') ? variables[tokens[2]] : tokens[2];
