@@ -2,6 +2,8 @@
 #include <unordered_map>
 #include <vector>
 #include <sstream>
+#include <string>
+#include <iterator>
 
 // A simple parser.
 int main() {
@@ -41,7 +43,7 @@ int main() {
                     std::istringstream iss(line);
                     std::vector<std::string> tokens((std::istream_iterator<std::string>(iss)),
                                                      std::istream_iterator<std::string>());
-                    if (tokens.size() == 3 and tokens[1][0] == '$') {
+                    if (tokens.size() == 3 && tokens[1][0] == '$') {
                         std::string variableName = tokens[1];
                         std::string arg = (tokens[2][0] == '$') ? variables[tokens[2]] : tokens[2];
                         variables[variableName] += arg;
