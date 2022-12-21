@@ -50,7 +50,7 @@ public:
     void process(std::string p_userInput) override
     {
         auto commandToken = p_userInput.substr(0, p_userInput.find_first_of(' '));
-        m_commandProcessors[commandToken]->process(p_userInput);
+        m_commandProcessors.at(commandToken)->process(p_userInput);
     }
 };
 
@@ -113,7 +113,6 @@ private:
     using CommandChar = char;
     std::unordered_map<CommandChar, std::unique_ptr<IProcessor>> m_processors;
 };
-
 
 // A simple parser.
 int main() {
