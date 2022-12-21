@@ -1,21 +1,18 @@
-#ifndef SRP_DBSERVICE_H
-#define SRP_DBSERVICE_H
-
+#pragma once
 
 #include <string>
 #include "User.h"
 
 class DbService {
 public:
+
+    DbService(std::string databaseUrl) : m_databaseUrl(std::move(databaseUrl)) {}
     void saveUser(User const& p_user);
 
 private:
-    void connect(std::string const& databaseUrl) {}
+    void connect() {}
     void save(User const& user) {}
     void release() {}
 
-    std::string m_databaseUrl = "postgres-host:database-name";
+    std::string m_databaseUrl;
 };
-
-
-#endif //SRP_DBSERVICE_H

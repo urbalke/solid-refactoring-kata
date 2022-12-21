@@ -1,6 +1,4 @@
-#ifndef SRP_USERMANAGER_H
-#define SRP_USERMANAGER_H
-
+#pragma once
 
 #include <string>
 #include <stdexcept>
@@ -11,21 +9,11 @@
 #include "DatabaseUrl.hpp"
 
 class UserManager {
+public:
+    UserManager(DatabaseUrl, std::vector<SmtpClientParameter>);
+    void registerUser(Email, Password);
+
+private:
     DbService db;
     SmtpClient smtp;
-
-public:
-    void registerUser(Email email, Password password)
-    {
-        User user{std::move(email), std::move(password)};
-        db.saveUser(user);
-        smtp.greetNewMember(
-            Email{"our-admin@example.tld"},
-            user.getEmail(),
-            GreetingMessage{"Registration Message", "Welcome Our Dear Client!"});
-    }
-
 };
-
-
-#endif //SRP_USERMANAGER_H

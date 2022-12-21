@@ -2,7 +2,7 @@
 
 void DbService::saveUser(User const& p_user)
 {
-    connect(m_databaseUrl);
+    connect();
     save(p_user);
     release();
 }

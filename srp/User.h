@@ -1,6 +1,4 @@
-#ifndef SRP_USER_H
-#define SRP_USER_H
-
+#pragma once
 
 #include <string>
 #include <chrono>
@@ -10,18 +8,11 @@
 class User
 {
 public:
-    User(Email p_email, Password p_password)
-        : email(std::move(p_email)), password(std::move(p_password)), created(std::chrono::system_clock::now()) {}
+    User(Email, Password);
+    const Email& getEmail() const;
 
-    const Email& getEmail() const
-    {
-        return email;
-    }
 private:
     Email email;
     Password password;
     std::chrono::time_point<std::chrono::system_clock> created;
 };
-
-
-#endif //SRP_USER_H

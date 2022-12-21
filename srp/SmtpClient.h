@@ -1,12 +1,12 @@
-#ifndef SRP_SMTPCLIENT_H
-#define SRP_SMTPCLIENT_H
+#pragma once
 
 #include <string>
 #include "Email.hpp"
+#include <vector>
 
-struct SmtpClientParameters
+struct SmtpClientParameter
 {
-    std::string m_key;
+    std::string m_name;
     std::string m_value;
 };
 
@@ -18,15 +18,13 @@ struct GreetingMessage
 
 class SmtpClient {
 public:
-    SmtpClient() : m_smtpClientParameters(SmtpClientParameters{"smtp.server", "smtp.example.tld"}) {}
-    void greetNewMember(Email const& p_from, Email const& p_to, GreetingMessage const& p_message);
+
+    SmtpClient(std::vector<SmtpClientParameter>);
+    void greetNewMember(Email const&, Email const&, GreetingMessage const&);
 
 private:
-    void setParameter(std::string const &name, std::string const &value) {}
-    void sendEmail(std::string const& from, std::string const& to, std::string const &subject, std::string const &body) {}
+    static void setParameter(SmtpClientParameter const&);
+    void sendEmail(std::string const&, std::string const&, GreetingMessage const&);
 
-    SmtpClientParameters m_smtpClientParameters;
+    std::vector<SmtpClientParameter> m_SmtpClientParameters;
 };
-
-
-#endif //SRP_SMTPCLIENT_H
