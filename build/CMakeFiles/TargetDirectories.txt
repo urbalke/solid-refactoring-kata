@@ -1,0 +1,3 @@
+/home/urba/szkolenie/solid-refactoring-kata/build/CMakeFiles/srp.dir
+/home/urba/szkolenie/solid-refactoring-kata/build/CMakeFiles/edit_cache.dir
+/home/urba/szkolenie/solid-refactoring-kata/build/CMakeFiles/rebuild_cache.dir
