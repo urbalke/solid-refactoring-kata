@@ -1,2 +1,0 @@
-/usr/bin/ar qc libsrp.a CMakeFiles/srp.dir/UserManager.cpp.o CMakeFiles/srp.dir/DbService.cpp.o CMakeFiles/srp.dir/User.cpp.o CMakeFiles/srp.dir/SmtpClient.cpp.o
-/usr/bin/ranlib libsrp.a
