@@ -32,51 +32,68 @@ public:
         std::string value = p_userInput.substr(equals + 1);
         m_variables.insert({name, value});
     }
-
 };
+
+class AddCommandProcessor;
+class PrintCommandProcessor;
 
 class CommandProcessor : public AbstractProcessor {
 private:
     using CommandType = std::string;
     std::unordered_map<CommandType, std::unique_ptr<IProcessor>> m_commandProcessors;
 public:
-    explicit CommandProcessor()
+    explicit CommandProcessor(std::unordered_map<std::string, std::string>& p_variables) : AbstractProcessor(p_variables)
     {
-        m_commandProcessors.emplace('$', std::make_unique<VariableProcessor>(m_variables));
-        m_commandProcessors.emplace('!', std::make_unique<CommandProcessor>(m_variables));
+        m_commandProcessors.emplace("!add", std::make_unique<AddCommandProcessor>(m_variables));
+        m_commandProcessors.emplace("!print", std::make_unique<PrintCommandProcessor>(m_variables));
     }
-    void process(std::string p_userInput) override {
-        if (p_userInput.find("!print", 0) == 0) {
-            // Process the print command.
-            std::istringstream iss(p_userInput);
-            std::vector<std::string> tokens((std::istream_iterator<std::string>(iss)),
-                                            std::istream_iterator<std::string>());
-            auto it = tokens.begin();
-            it++;
-            while (it != tokens.end()) {
-                std::string token = *it++;
-                if (token[0] == '$') {
-                    std::cout << m_variables[token];
-                } else {
-                    std::cout << token;
-                }
-            }
-            std::cout << std::endl;
+    void process(std::string p_userInput) override
+    {
+        auto commandToken = p_userInput.substr(0, p_userInput.find_first_of(' '));
+        m_commandProcessors[commandToken]->process(p_userInput);
+    }
+};
 
-        } else if (p_userInput.find("!add", 0) == 0) {
-            // Process the add command: add another variable or value to a specified variable.
-            std::istringstream iss(p_userInput);
-            std::vector<std::string> tokens((std::istream_iterator<std::string>(iss)),
-                                            std::istream_iterator<std::string>());
-            if (tokens.size() == 3 && tokens[1][0] == '$') {
-                std::string variableName = tokens[1];
-                std::string arg = (tokens[2][0] == '$') ? m_variables[tokens[2]] : tokens[2];
-                m_variables[variableName] += arg;
-            }
+class AddCommandProcessor : public CommandProcessor {
+public:
+    using CommandProcessor::CommandProcessor;
+
+    void process(std::string p_userInput) override {
+        // Process the add command: add another variable or value to a specified variable.
+        std::istringstream iss(p_userInput);
+        std::vector<std::string> tokens((std::istream_iterator<std::string>(iss)),
+                                        std::istream_iterator<std::string>());
+        if (tokens.size() == 3 && tokens[1][0] == '$') {
+            std::string variableName = tokens[1];
+            std::string arg = (tokens[2][0] == '$') ? m_variables[tokens[2]] : tokens[2];
+            m_variables[variableName] += arg;
         }
     }
 };
 
+class PrintCommandProcessor : public CommandProcessor {
+public:
+    using CommandProcessor::CommandProcessor;
+
+    void process(std::string p_userInput) override {
+        // Process the print command.
+        std::istringstream iss(p_userInput);
+        std::vector<std::string> tokens((std::istream_iterator<std::string>(iss)),
+                                        std::istream_iterator<std::string>());
+        auto it = tokens.begin();
+        it++;
+        while (it != tokens.end()) {
+            std::string token = *it++;
+            if (token[0] == '$') {
+                std::cout << m_variables[token];
+            } else {
+                std::cout << token;
+            }
+        }
+        std::cout << std::endl;
+    }
+
+};
 class Parser
 {
 public:
