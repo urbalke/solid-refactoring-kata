@@ -3,4 +3,14 @@ project(srp)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_library(srp UserManager.cpp UserManager.h DbService.cpp DbService.h User.cpp User.h SmtpClient.cpp SmtpClient.h)
+add_library(srp
+    UserManager.cpp
+    UserManager.h
+    DbService.cpp
+    DbService.h
+    User.cpp
+    User.h
+    SmtpClient.cpp
+    SmtpClient.h
+    Email.hpp
+    Password.hpp)

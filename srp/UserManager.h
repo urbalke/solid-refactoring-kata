@@ -6,32 +6,23 @@
 #include <stdexcept>
 #include "DbService.h"
 #include "SmtpClient.h"
+#include "Email.hpp"
+#include "Password.hpp"
+#include "DatabaseUrl.hpp"
 
 class UserManager {
     DbService db;
     SmtpClient smtp;
 
-    std::string hash(std::string const& password) {
-        return password + " is now hashed";
-    }
-
 public:
-    void registerUser(std::string const& email, std::string const& password) {
-        if (email.find('@') == std::string::npos) {
-            throw std::invalid_argument("The email is not valid.");
-        }
-
-        User user;
-        user.email = email;
-        user.password = hash(password);
-        user.created = std::chrono::system_clock::now();
-
-        db.connect("postgres-host:database-name");
-        db.save(user);
-        db.release();
-
-        smtp.setParameter("smtp.server", "smtp.example.tld");
-        smtp.sendEmail("our-admin@example.tld", email, "Registration Message", "Welcome Our Dear Client!");
+    void registerUser(Email email, Password password)
+    {
+        User user{std::move(email), std::move(password)};
+        db.saveUser(user);
+        smtp.greetNewMember(
+            Email{"our-admin@example.tld"},
+            user.getEmail(),
+            GreetingMessage{"Registration Message", "Welcome Our Dear Client!"});
     }
 
 };
